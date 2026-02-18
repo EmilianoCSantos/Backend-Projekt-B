@@ -1,0 +1,37 @@
+# .NET
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.su
+*.o
+*.a
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# IDEs
+.vscode/
+.vs/
+*.sln.iml
+*.user
+*.userprefs
+*.VC.db
+*.VC.VC.opendb
+
+# Local environment
+launchSettings.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Parent directories - don't track files outside this project
+../../../Projects/
+../../../Projekt A/
+../../project-b-secrets.json.zip
