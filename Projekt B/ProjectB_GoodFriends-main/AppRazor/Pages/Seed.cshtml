@@ -1,0 +1,71 @@
+@page
+@model AppRazor.Pages.SeedModel
+@{
+    ViewData["Title"] = "Seed Database";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Seed Database</h1>
+            <p class="lead">Manage your database seed data</p>
+
+            <!-- Message Alert -->
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                    @Model.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <!-- Buttons Container -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <form method="post" asp-page-handler="Seed">
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="bi bi-plus-circle"></i> Seed Database
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form method="post" asp-page-handler="RemoveSeed">
+                        <button type="submit" class="btn btn-danger btn-lg w-100">
+                            <i class="bi bi-trash"></i> Remove Seed
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            @if (Model.SeedResult != null)
+            {
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Seed Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Friends</h6>
+                                <p class="text-muted">@(Model.SeedResult.Friends?.Count ?? 0) locations</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Pets</h6>
+                                <p class="text-muted">@(Model.SeedResult.Pets?.Count ?? 0) locations</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Addresses</h6>
+                                <p class="text-muted">Seeded: @(Model.SeedResult.Db?.NrSeededAddresses ?? 0)</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Quotes</h6>
+                                <p class="text-muted">@(Model.SeedResult.Quotes?.Count ?? 0) authors</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
