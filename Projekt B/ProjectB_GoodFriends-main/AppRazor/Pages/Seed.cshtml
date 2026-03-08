@@ -4,34 +4,39 @@
     ViewData["Title"] = "Seed Database";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h1>Seed Database</h1>
-            <p class="lead">Manage your database seed data</p>
+<div class="container px-4 py-4">
+    <h2 class="pb-2 border-bottom">Seed Database</h2>
+    <p class="fs-5">Manage your database seed data. Seed with 100 test items or remove all seeded data.</p>
 
-            <!-- Message Alert -->
-            @if (!string.IsNullOrEmpty(Model.Message))
-            {
-                <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
-                    @Model.Message
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
+    <!-- Status Alert -->
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+            <strong>@(Model.IsSuccess ? "Success!" : "Error!")</strong> @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-            <!-- Buttons Container -->
-            <div class="row mb-4">
-                <div class="col-md-6">
+    <!-- Seed Controls -->
+    <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
+        <div class="col-md-7 col-lg-8">
+            <div class="row g-3 mb-4">
+                <!-- Seed Button -->
+                <div class="col-sm-6">
                     <form method="post" asp-page-handler="Seed">
-                        <button type="submit" class="btn btn-success btn-lg w-100">
-                            <i class="bi bi-plus-circle"></i> Seed Database
+                        <button type="submit" class="btn btn-success w-100 btn-lg">
+                            <strong>Seed Database</strong><br>
+                            <small class="text-muted">Add 100 test friends, pets, and addresses</small>
                         </button>
                     </form>
                 </div>
-                <div class="col-md-6">
+
+                <!-- Remove Seed Button -->
+                <div class="col-sm-6">
                     <form method="post" asp-page-handler="RemoveSeed">
-                        <button type="submit" class="btn btn-danger btn-lg w-100">
-                            <i class="bi bi-trash"></i> Remove Seed
+                        <button type="submit" class="btn btn-danger w-100 btn-lg">
+                            <strong>Remove Seed</strong><br>
+                            <small class="text-muted">Clear all seeded test data</small>
                         </button>
                     </form>
                 </div>
@@ -45,22 +50,34 @@
                         <h5 class="mb-0">Seed Information</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Friends</h6>
-                                <p class="text-muted">@(Model.SeedResult.Friends?.Count ?? 0) locations</p>
+                        <div class="row row-cols-2 row-cols-md-4 g-4">
+                            <div class="col">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <h6 class="text-muted mb-2">Friends</h6>
+                                    <p class="fs-5 fw-bold">@(Model.SeedResult.Friends?.Count ?? 0)</p>
+                                    <small class="text-muted">locations</small>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <h6>Pets</h6>
-                                <p class="text-muted">@(Model.SeedResult.Pets?.Count ?? 0) locations</p>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <h6 class="text-muted mb-2">Pets</h6>
+                                    <p class="fs-5 fw-bold">@(Model.SeedResult.Pets?.Count ?? 0)</p>
+                                    <small class="text-muted">locations</small>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <h6>Addresses</h6>
-                                <p class="text-muted">Seeded: @(Model.SeedResult.Db?.NrSeededAddresses ?? 0)</p>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <h6 class="text-muted mb-2">Addresses</h6>
+                                    <p class="fs-5 fw-bold">@(Model.SeedResult.Db?.NrSeededAddresses ?? 0)</p>
+                                    <small class="text-muted">seeded</small>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <h6>Quotes</h6>
-                                <p class="text-muted">@(Model.SeedResult.Quotes?.Count ?? 0) authors</p>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <h6 class="text-muted mb-2">Quotes</h6>
+                                    <p class="fs-5 fw-bold">@(Model.SeedResult.Quotes?.Count ?? 0)</p>
+                                    <small class="text-muted">authors</small>
+                                </div>
                             </div>
                         </div>
                     </div>
