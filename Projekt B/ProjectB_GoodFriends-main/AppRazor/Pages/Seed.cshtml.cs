@@ -10,17 +10,14 @@ public class SeedModel : PageModel
     private readonly IAdminService _adminService;
     private readonly ILogger<SeedModel> _logger;
 
-    public GstUsrInfoAllDto SeedResult { get; set; }
-    public string Message { get; set; }
+    public GstUsrInfoAllDto? SeedResult { get; set; }
+    public string? Message { get; set; }
     public bool IsSuccess { get; set; }
 
     public SeedModel(IAdminService adminService, ILogger<SeedModel> logger)
     {
         _adminService = adminService;
         _logger = logger;
-        SeedResult = null;
-        Message = "";
-        IsSuccess = false;
     }
 
     public void OnGet()

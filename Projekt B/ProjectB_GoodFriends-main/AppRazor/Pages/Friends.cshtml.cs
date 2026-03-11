@@ -24,11 +24,16 @@ public class FriendsModel : PageModel
         try
         {
             // Load all friends and extract unique countries
-            var response = await _friendsService.ReadFriendsAsync(false, false, "", 1, 1000);
+            var response = await _friendsService.ReadFriendsAsync(true, false, "", 1, 100);
+            
+            _logger.LogInformation($"Loaded {response?.PageItems?.Count ?? 0} friends from service");
             
             if (response != null && response.PageItems != null)
             {
                 Friends = response.PageItems;
+                _logger.LogInformation($"Total friends in list: {Friends.Count}");
+                _logger.LogInformation($"Friends with Address: {Friends.Count(f => f.Address != null)}");
+                
                 Countries = Friends
                     .Where(f => f.Address != null)
                     .Select(f => f.Address.Country)
@@ -36,6 +41,8 @@ public class FriendsModel : PageModel
                     .Distinct()
                     .OrderBy(c => c)
                     .ToList();
+                
+                _logger.LogInformation($"Extracted {Countries.Count} unique countries: {string.Join(", ", Countries)}");
             }
         }
         catch (Exception ex)
@@ -52,7 +59,7 @@ public class FriendsModel : PageModel
             SelectedCountry = country;
 
             // Load all friends
-            var response = await _friendsService.ReadFriendsAsync(false, false, "", 1, 1000);
+            var response = await _friendsService.ReadFriendsAsync(true, false, "", 1, 100);
             
             if (response != null && response.PageItems != null)
             {

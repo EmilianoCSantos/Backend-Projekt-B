@@ -1,0 +1,152 @@
+@page
+@model FriendsPetsModel
+@using Models.Interfaces
+
+@{
+    ViewData["Title"] = "Friends & Pets by City";
+}
+
+<div class="container px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Friends & Pets by City</h1>
+            <p class="text-muted">Select a country and then a city to view friends and their pets</p>
+        </div>
+    </div>
+
+    <!-- Filter Form -->
+    <div class="row mb-4">
+        <div class="col-md-10">
+            <form method="post">
+                <!-- Country Row -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <select class="form-select" name="country" id="countrySelect">
+                            <option value="">-- Select Country --</option>
+                            @foreach (var country in Model.Countries)
+                            {
+                                <option value="@country" selected="@(Model.SelectedCountry == country)">@country</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </div>
+
+                <!-- City Row -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <select class="form-select" name="city" id="citySelect">
+                            <option value="">-- Select City --</option>
+                            @foreach (var city in Model.Cities)
+                            {
+                                <option value="@city" selected="@(Model.SelectedCity == city)">@city</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    @if (!string.IsNullOrEmpty(Model.SelectedCountry) && !string.IsNullOrEmpty(Model.SelectedCity))
+    {
+        <!-- Friends Table -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3>Friends in @Model.SelectedCity, @Model.SelectedCountry</h3>
+                @if (Model.Friends.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Birthday</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var friend in Model.Friends)
+                                {
+                                    <tr>
+                                        <td>@friend.FirstName @friend.LastName</td>
+                                        <td>@friend.Email</td>
+                                        <td>@friend.Birthday?.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            <a href="/FriendDetails?id=@friend.FriendId" class="btn btn-sm btn-info">View Details</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert">
+                        No friends found in @Model.SelectedCity
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Pets Table -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3>Pets in @Model.SelectedCity, @Model.SelectedCountry</h3>
+                @if (Model.Pets.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Pet Name</th>
+                                    <th>Kind</th>
+                                    <th>Mood</th>
+                                    <th>Owner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pet in Model.Pets)
+                                {
+                                    var owner = Model.Friends.FirstOrDefault(f => f.Pets?.Any(p => p.PetId == pet.PetId) ?? false);
+                                    <tr>
+                                        <td>@pet.Name</td>
+                                        <td>@pet.Kind</td>
+                                        <td>@pet.Mood</td>
+                                        <td>@owner?.FirstName @owner?.LastName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert">
+                        No pets found in @Model.SelectedCity
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(Model.SelectedCountry) && string.IsNullOrEmpty(Model.SelectedCity))
+    {
+        <div class="alert alert-info" role="alert">
+            Please select a city to view friends and pets
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Select a country and city to view friends and pets
+        </div>
+    }
+</div>
