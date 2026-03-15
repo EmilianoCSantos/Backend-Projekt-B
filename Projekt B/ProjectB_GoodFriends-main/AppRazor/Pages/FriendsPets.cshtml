@@ -69,7 +69,6 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Birthday</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,9 +78,6 @@
                                         <td>@friend.FirstName @friend.LastName</td>
                                         <td>@friend.Email</td>
                                         <td>@friend.Birthday?.ToString("yyyy-MM-dd")</td>
-                                        <td>
-                                            <a href="/FriendDetails?id=@friend.FriendId" class="btn btn-sm btn-info">View Details</a>
-                                        </td>
                                     </tr>
                                 }
                             </tbody>
