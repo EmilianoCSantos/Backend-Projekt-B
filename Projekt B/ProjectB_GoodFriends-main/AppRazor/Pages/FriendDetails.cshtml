@@ -11,6 +11,10 @@
     <div class="row mb-4">
         <div class="col-12">
             <a href="/Friends" class="btn btn-secondary">← Back to Friends</a>
+            @if (Model.Friend != null)
+            {
+                <a href="/EditFriend/@Model.Friend.FriendId" class="btn btn-warning">Edit Friend</a>
+            }
         </div>
     </div>
 

@@ -1,0 +1,116 @@
+@page "{id:guid}"
+@model EditFriendModel
+@using Models.Interfaces
+
+@{
+    ViewData["Title"] = Model.Friend != null ? $"Edit {Model.Friend.FirstName} {Model.Friend.LastName}" : "Edit Friend";
+}
+
+<div class="container px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Edit Friend</h1>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!ModelState.IsValid && ModelState.Values.Any(v => v.Errors.Count > 0))
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Validation errors occurred. Please correct them below.</strong>
+        </div>
+    }
+
+    @if (Model.Friend != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" class="card p-4">
+                    <!-- First Name -->
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control @(ModelState.ContainsKey("Friend.FirstName") && ModelState["Friend.FirstName"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="firstName"
+                            name="Friend.FirstName"
+                            asp-for="Friend.FirstName"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                            placeholder="Enter first name" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Friend.FirstName")
+                        </span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control @(ModelState.ContainsKey("Friend.LastName") && ModelState["Friend.LastName"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="lastName"
+                            name="Friend.LastName"
+                            asp-for="Friend.LastName"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                            placeholder="Enter last name" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Friend.LastName")
+                        </span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            class="form-control @(ModelState.ContainsKey("Friend.Email") && ModelState["Friend.Email"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="email"
+                            name="Friend.Email"
+                            asp-for="Friend.Email"
+                            required
+                            placeholder="Enter email address" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Friend.Email")
+                        </span>
+                    </div>
+
+                    <!-- Birthday -->
+                    <div class="mb-3">
+                        <label for="birthday" class="form-label">Birthday</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            id="birthday"
+                            name="Friend.Birthday"
+                            asp-for="Friend.Birthday" />
+                    </div>
+
+                    <!-- Hidden FriendId -->
+                    <input type="hidden" name="Friend.FriendId" asp-for="Friend.FriendId" />
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="/ListFriends" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Loading friend details...
+        </div>
+    }
+</div>
