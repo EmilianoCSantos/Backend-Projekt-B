@@ -1,0 +1,128 @@
+@page "{friendId:guid}"
+@model EditAddressModel
+
+@{
+    ViewData["Title"] = Model.FriendName != null ? $"Edit Address - {Model.FriendName}" : "Edit Address";
+}
+
+<div class="container px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Edit Address</h1>
+            @if (Model.FriendName != null)
+            {
+                <p class="text-muted">Editing address for: <strong>@Model.FriendName</strong></p>
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!ModelState.IsValid && ModelState.Values.Any(v => v.Errors.Count > 0))
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Validation errors occurred. Please correct them below.</strong>
+        </div>
+    }
+
+    @if (Model.Address != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" class="card p-4">
+                    <!-- Street Address -->
+                    <div class="mb-3">
+                        <label for="streetAddress" class="form-label">Street Address</label>
+                        <input 
+                            type="text" 
+                            class="form-control @(ModelState.ContainsKey("Address.StreetAddress") && ModelState["Address.StreetAddress"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="streetAddress"
+                            name="Address.StreetAddress"
+                            asp-for="Address.StreetAddress"
+                            required
+                            minlength="3"
+                            maxlength="150"
+                            placeholder="Enter street address" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Address.StreetAddress")
+                        </span>
+                    </div>
+
+                    <!-- Zip Code -->
+                    <div class="mb-3">
+                        <label for="zipCode" class="form-label">Zip Code</label>
+                        <input 
+                            type="number" 
+                            class="form-control @(ModelState.ContainsKey("Address.ZipCode") && ModelState["Address.ZipCode"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="zipCode"
+                            name="Address.ZipCode"
+                            asp-for="Address.ZipCode"
+                            required
+                            min="1"
+                            placeholder="Enter zip code" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Address.ZipCode")
+                        </span>
+                    </div>
+
+                    <!-- City -->
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input 
+                            type="text" 
+                            class="form-control @(ModelState.ContainsKey("Address.City") && ModelState["Address.City"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="city"
+                            name="Address.City"
+                            asp-for="Address.City"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                            placeholder="Enter city" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Address.City")
+                        </span>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input 
+                            type="text" 
+                            class="form-control @(ModelState.ContainsKey("Address.Country") && ModelState["Address.Country"]?.Errors?.Count > 0 ? "is-invalid" : "")" 
+                            id="country"
+                            name="Address.Country"
+                            asp-for="Address.Country"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                            placeholder="Enter country" />
+                        <span class="invalid-feedback d-block">
+                            @Html.ValidationMessage("Address.Country")
+                        </span>
+                    </div>
+
+                    <!-- Hidden fields -->
+                    <input type="hidden" name="Address.AddressId" asp-for="Address.AddressId" />
+                    <input type="hidden" name="friendId" asp-for="FriendId" />
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="/FriendDetails/@Model.FriendId" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Loading address details...
+        </div>
+    }
+</div>
