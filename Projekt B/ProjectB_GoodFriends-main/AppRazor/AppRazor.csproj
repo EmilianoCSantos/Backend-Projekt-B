@@ -4,17 +4,18 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f61c4253-fac2-4b85-96e8-67fb3df8fc0d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+      <GlobalPropertiesToRemove />
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+      <GlobalPropertiesToRemove />
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+      <GlobalPropertiesToRemove />
     </ProjectReference>
   </ItemGroup>
 
