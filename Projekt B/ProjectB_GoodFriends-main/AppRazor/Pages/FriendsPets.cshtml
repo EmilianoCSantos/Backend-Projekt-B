@@ -10,17 +10,18 @@
     <div class="row mb-4">
         <div class="col-12">
             <h1>Friends & Pets by City</h1>
-            <p class="text-muted">Select a country and then a city to view friends and their pets</p>
+            <p class="text-muted">Select a country and city to view friends and their pets</p>
         </div>
     </div>
 
     <!-- Filter Form -->
     <div class="row mb-4">
-        <div class="col-md-10">
-            <form method="post">
-                <!-- Country Row -->
+        <div class="col-12">
+            <form method="post" class="bg-light p-3 rounded">
+                <!-- Country + City Row -->
                 <div class="row mb-3">
-                    <div class="col-md-8">
+                    <div class="col-md-5">
+                        <label for="countrySelect" class="form-label">Country</label>
                         <select class="form-select" name="country" id="countrySelect">
                             <option value="">-- Select Country --</option>
                             @foreach (var country in Model.Countries)
@@ -29,15 +30,10 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary w-100">Filter</button>
-                    </div>
-                </div>
-
-                <!-- City Row -->
-                <div class="row mb-3">
-                    <div class="col-md-8">
-                        <select class="form-select" name="city" id="citySelect">
+                    
+                    <div class="col-md-5">
+                        <label for="citySelect" class="form-label">City</label>
+                        <select class="form-select" name="city" id="citySelect" disabled="@string.IsNullOrEmpty(Model.SelectedCountry)">
                             <option value="">-- Select City --</option>
                             @foreach (var city in Model.Cities)
                             {
@@ -45,7 +41,8 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    
+                    <div class="col-md-2 d-flex align-items-end">
                         <button type="submit" class="btn btn-primary w-100">Filter</button>
                     </div>
                 </div>
@@ -87,7 +84,7 @@
                 else
                 {
                     <div class="alert alert-info" role="alert">
-                        No friends found in @Model.SelectedCity
+                        No friends found in @Model.SelectedCity, @Model.SelectedCountry
                     </div>
                 }
             </div>
@@ -127,7 +124,7 @@
                 else
                 {
                     <div class="alert alert-info" role="alert">
-                        No pets found in @Model.SelectedCity
+                        No pets found in @Model.SelectedCity, @Model.SelectedCountry
                     </div>
                 }
             </div>
@@ -136,13 +133,13 @@
     else if (!string.IsNullOrEmpty(Model.SelectedCountry) && string.IsNullOrEmpty(Model.SelectedCity))
     {
         <div class="alert alert-info" role="alert">
-            Please select a city to view friends and pets
+            Select a city and click Filter to view friends and pets
         </div>
     }
     else
     {
         <div class="alert alert-info" role="alert">
-            Select a country and city to view friends and pets
+            Select a country and city, then click Filter to view results
         </div>
     }
 </div>
